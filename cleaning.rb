@@ -1,5 +1,6 @@
 require 'date'
 require './config/initializer.rb'
+require './lib/manual_setting.rb'
 
 # TODO モジュール化・クラス分け・定数化・設定ファイル使用等、より良い書き方にする必要あり。
 
@@ -183,6 +184,7 @@ class CleaningManager
     press_enter
   end
 
+=begin
   # 掃除担当手動設定時の担当者変更速度を変更する
   def speed_change
     message = ""
@@ -211,10 +213,9 @@ class CleaningManager
       end
     end
   end
+=end
 
-  # メソッドコメント
   def run
-    #
     clear_stdout
     puts "アプリの起動準備が完了しました"
     press_enter
@@ -240,7 +241,7 @@ class CleaningManager
         manual
       when "3"
         clear_stdout
-        speed_change
+        Manual_setting.speed_change
       when "9"
         clear_stdout
         break

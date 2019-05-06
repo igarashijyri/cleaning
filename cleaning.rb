@@ -12,6 +12,7 @@ require './lib/manual_setting.rb'
 # cleaning_manager.run
 # 
 class CleaningManager
+  extend ManualSetting
 
   # メソッドコメントを記述
   # 標準出力のクリアを行う
@@ -241,7 +242,7 @@ class CleaningManager
         manual
       when "3"
         clear_stdout
-        Manual_setting.speed_change
+        ManualSetting.speed_change
       when "9"
         clear_stdout
         break

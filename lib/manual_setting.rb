@@ -1,4 +1,4 @@
-class Manual_setting
+module ManualSetting
   # TODO 他で定義されているメソッドを読み込む必要あり
   # 掃除担当手動設定時の担当者変更速度を変更する
   def self.speed_change

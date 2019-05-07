@@ -1,33 +1,16 @@
 require 'date'
 require './config/initializer.rb'
 require './lib/manual_setting.rb'
+require './lib/command.rb'
 
 # TODO モジュール化・クラス分け・定数化・設定ファイル使用等、より良い書き方にする必要あり。
 
 # クラスコメントを記述
 # CleaningManagerは掃除担当を管理するクラスである。
-#
-# SAMPLE
-# cleaning_manager = CleaningManager.new()
-# cleaning_manager.run
-# 
+
 class CleaningManager
-  extend ManualSetting
-
-  # メソッドコメントを記述
-  # 標準出力のクリアを行う
-  def clear_stdout
-    puts "\e[H\e[2J"
-    puts "\e[H\e[2J"
-  end
-
-  # キー押下を促すメッセージを表示し、
-  # キー押下時に標準出力をクリアする
-  def press_enter
-    puts "Press Enter Key..."
-    gets
-    clear_stdout
-  end
+  include Command
+  include ManualSetting
 
   # アプリ起動準備メッセージを表示する
   # パラメータの秒数だけカウントダウンメッセージを表示する
@@ -35,7 +18,7 @@ class CleaningManager
   def prepare_run(num)
     num.times { |n|
       4.times { |i|
-        clear_stdout
+        Command.clear_stdout
         puts "アプリを起動しています..."
         puts "しばらくお待ちください..."
         if i.even?
@@ -76,7 +59,7 @@ class CleaningManager
 
   # 掃除担当および確定済みの担当者を表示する。
   def show_duty
-      clear_stdout
+    Command.clear_stdout
       puts "　当番を埋めていきます:"
       @cleaning_duty.each_with_index do |duty, i|
         print duty
@@ -155,7 +138,7 @@ class CleaningManager
       # 確定した担当者一覧をファイルに出力する
       if @members.size <= 0
         file_output("手動")
-        press_enter
+        Command.press_enter
         break
       end
       gets
@@ -182,44 +165,13 @@ class CleaningManager
     @current_members.concat(@members.shuffle)
     show_duty
     file_output("自動")
-    press_enter
+    Command.press_enter
   end
-
-=begin
-  # 掃除担当手動設定時の担当者変更速度を変更する
-  def speed_change
-    message = ""
-    loop do
-      puts "速度変更"
-      puts ""
-      puts "　1～5:速度を変更する(1[←速い]～[遅い→]5)"
-      puts "　9:戻る"
-      puts "メニューを選択して下さい:"
-      puts message
-      message = ""
-      input = gets.chomp
-      case input
-      when "1","2","3","4","5"
-        @speed = @speed_list[input.to_i-1]
-        puts "速度が#{input}に設定されました"
-        press_enter
-        break
-      when "9"
-        clear_stdout
-        break
-      else
-        clear_stdout
-        message = "正しい値を入力して下さい"
-        next
-      end
-    end
-  end
-=end
 
   def run
-    clear_stdout
+    Command.clear_stdout
     puts "アプリの起動準備が完了しました"
-    press_enter
+    Command.press_enter
     message = ""
     loop do
       puts "メニュー"
@@ -235,19 +187,19 @@ class CleaningManager
       input = gets.chomp
       case input
       when "1"
-        clear_stdout
+        Command.clear_stdout
         auto
       when "2"
-        clear_stdout
+        Command.clear_stdout
         manual
       when "3"
-        clear_stdout
+        Command.clear_stdout
         ManualSetting.speed_change
       when "9"
-        clear_stdout
+        Command.clear_stdout
         break
       else
-        clear_stdout
+        Command.clear_stdout
         message = "正しい値を入力して下さい"
         next
       end
@@ -257,7 +209,7 @@ end
 
 Initializer.new()
 cleaning_manager = CleaningManager.new()
-cleaning_manager.clear_stdout
+Command.clear_stdout
 cleaning_manager.prepare_run(2)
 cleaning_manager.run
-cleaning_manager.clear_stdout
+Command.clear_stdout

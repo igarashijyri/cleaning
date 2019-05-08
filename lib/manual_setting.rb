@@ -1,9 +1,11 @@
 require './lib/command.rb'
+require './config/initializer.rb'
 
 module ManualSetting
   # TODO 他で定義されているメソッドを読み込む必要あり
   # 掃除担当手動設定時の担当者変更速度を変更する
   include Command
+  include Initializer
 
   def speed_change
     message = ""
@@ -18,7 +20,7 @@ module ManualSetting
       input = gets.chomp
       case input
       when "1","2","3","4","5"
-        @speed = @speed_list[input.to_i-1]
+        @speed = Initializer::SPEED_LIST[input.to_i-1]
         puts "速度が#{input}に設定されました"
         Command.press_enter
         break

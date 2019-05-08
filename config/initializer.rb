@@ -1,6 +1,7 @@
  module Initializer
  # 初期化を行う
- HOGE = 123
+  SPEED_LIST = [0.01, 0.03, 0.08 ,0.2 ,0.5, 1.0]
+
   def initialize
     reset_members
     # 掃除の担当一覧
@@ -10,8 +11,7 @@
     @cleaning_duty.unshift(female_toileting) unless @women.empty?
     @cleaning_duty.unshift(male_toileting) unless @men.empty?
     # 手動設定時の担当者変更速度
-    @speed_list = [0.01, 0.03, 0.08 ,0.2 ,0.5, 1.0]
-    @speed = @speed_list[2]
+    @speed = SPEED_LIST[2]
   end
 
   # 担当者情報を初期化する

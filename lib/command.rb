@@ -1,5 +1,5 @@
 module Command
-   # メソッドコメントを記述
+  # メソッドコメントを記述
   # 標準出力のクリアを行う
   def self.clear_stdout
     puts "\e[H\e[2J"

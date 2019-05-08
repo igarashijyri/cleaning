@@ -5,7 +5,7 @@ module ManualSetting
   # 掃除担当手動設定時の担当者変更速度を変更する
   include Command
 
-  def self.speed_change
+  def speed_change
     message = ""
     loop do
       puts "速度変更"

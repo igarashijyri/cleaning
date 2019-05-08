@@ -1,5 +1,6 @@
- class Initializer
+ module Initializer
  # 初期化を行う
+ HOGE = 123
   def initialize
     reset_members
     # 掃除の担当一覧

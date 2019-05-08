@@ -9,6 +9,7 @@ require './lib/command.rb'
 # CleaningManagerは掃除担当を管理するクラスである。
 
 class CleaningManager
+  include Initializer
   include Command
   include ManualSetting
 
@@ -23,7 +24,7 @@ class CleaningManager
         puts "しばらくお待ちください..."
         if i.even?
           puts "#{(num-n).to_s}."
-        else 
+        else
           puts "#{(num-n).to_s}"
         end
         sleep(0.25)
@@ -127,7 +128,7 @@ class CleaningManager
           @members.clear
         end
         # 担当者選択表示を停止する
-        Thread::kill(thread) 
+        Thread::kill(thread)
         show_duty
         puts @member unless @members.empty?
         puts ""
@@ -148,7 +149,7 @@ class CleaningManager
   # 掃除担当を自動で確定する。
   def auto
     reset_members
-    
+
     if !@fixed_men
       @fixed_men = true
       member = @men.sample
@@ -161,7 +162,7 @@ class CleaningManager
       @current_members.push(member)
       @members.concat(@women).delete(member)
     end
-    
+
     @current_members.concat(@members.shuffle)
     show_duty
     file_output("自動")
@@ -194,7 +195,7 @@ class CleaningManager
         manual
       when "3"
         Command.clear_stdout
-        ManualSetting.speed_change
+        speed_change
       when "9"
         Command.clear_stdout
         break
@@ -207,8 +208,7 @@ class CleaningManager
   end
 end
 
-Initializer.new()
-cleaning_manager = CleaningManager.new()
+cleaning_manager = CleaningManager.new
 Command.clear_stdout
 cleaning_manager.prepare_run(2)
 cleaning_manager.run
